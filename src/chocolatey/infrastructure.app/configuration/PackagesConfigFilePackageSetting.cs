@@ -58,7 +58,7 @@ namespace chocolatey.infrastructure.app.configuration
 
         [XmlAttribute(AttributeName = "pinPackage")]
         public bool PinPackage { get; set; }
-        
+
         [System.ComponentModel.DefaultValue(-1)]
         [XmlAttribute(AttributeName = "executionTimeout")]
         public int ExecutionTimeout { get; set; }
@@ -68,6 +68,12 @@ namespace chocolatey.infrastructure.app.configuration
 
         [XmlAttribute(AttributeName = "prerelease")]
         public bool Prerelease { get; set; }
+
+        [XmlAttribute(AttributeName = "internalcert")]
+        public string InternalCert { get; set; }
+
+        [XmlAttribute(AttributeName = "usercert")]
+        public bool UserCert { get; set; }
 
         [XmlAttribute(AttributeName = "overrideArguments")]
         public bool OverrideArguments { get; set; }

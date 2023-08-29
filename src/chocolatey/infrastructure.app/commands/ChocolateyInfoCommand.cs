@@ -58,6 +58,10 @@ namespace chocolatey.infrastructure.app.commands
                     "p=|password=",
                     "Password - the user's password to the source. Defaults to empty.",
                     option => configuration.SourceCommand.Password = option.UnquoteSafe())
+                .Add(
+                    "ic=|internalcert="
+                    "Internal Cert - Uses the cert in the local machine store(personal)"
+                    option => configuration.InternalCert = option.UnquoteSafe())
                 .Add("cert=",
                      "Client certificate - PFX pathname for an x509 authenticated feeds. Defaults to empty.",
                      option => configuration.SourceCommand.Certificate = option.UnquoteSafe())
@@ -75,6 +79,19 @@ namespace chocolatey.infrastructure.app.commands
                         }
                     })
                 ;
+            // After parsing all options, check for conflicting options
+            if (!string.IsNullOrEmpty(configuration.InternalCert) &&
+                (!string.IsNullOrEmpty(configuration.SourceCommand.Certificate) ||
+                 !string.IsNullOrEmpty(configuration.SourceCommand.CertificatePassword)))
+            {
+                throw new InvalidOperationException("You cannot specify 'internalcert' along with 'cert' or 'certpassword'.");
+            }
+
+            if (!string.IsNullOrEmpty(configuration.SourceCommand.Certificate) &&
+                !string.IsNullOrEmpty(configuration.InternalCert))
+            {
+                throw new InvalidOperationException("You cannot specify 'cert' or 'certpassword' along with 'internalcert'.");
+            }
         }
 
         public override void ParseAdditionalArguments(IList<string> unparsedArguments, ChocolateyConfiguration configuration)

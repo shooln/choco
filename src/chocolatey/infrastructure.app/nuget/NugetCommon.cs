@@ -94,6 +94,14 @@ namespace chocolatey.infrastructure.app.nuget
             return Repository.Factory.GetCoreV3(nugetSource);
         }
 
+        public static X509Certificate2 GetFromCertStore(string certname)
+        {
+            X509Store myX509Store = new X509Store(StoreName.My, StoreLocation.LocalMachine);
+            myX509Store.Open(OpenFlags.ReadWrite);
+            X509Certificate2 myCertificate = myX509Store.Certificates.OfType<X509Certificate2>().FirstOrDefault(cert => cert.GetNameInfo(X509NameType.SimpleName, false) == certname);
+            return myCertificate;
+        }
+
         public static IEnumerable<SourceRepository> GetRemoteRepositories(ChocolateyConfiguration configuration, ILogger nugetLogger, IFileSystem filesystem)
         {
             // Set user agent for all NuGet library calls. Should not affect any HTTP calls that Chocolatey itself would make.
@@ -115,7 +123,7 @@ namespace chocolatey.infrastructure.app.nuget
                 if (!string.IsNullOrWhiteSpace(configuration.Proxy.BypassList))
                 {
                     "chocolatey".Log().Debug("Proxy has a bypass list of '{0}'.".FormatWith(configuration.Proxy.BypassList.EscapeCurlyBraces()));
-                    proxy.BypassList = configuration.Proxy.BypassList.Replace("*",".*").Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
+                    proxy.BypassList = configuration.Proxy.BypassList.Replace("*", ".*").Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
                 }
 
                 proxy.BypassProxyOnLocal = configuration.Proxy.BypassOnLocal;
@@ -139,8 +147,16 @@ namespace chocolatey.infrastructure.app.nuget
             {
                 var source = sourceValue;
                 var bypassProxy = false;
-
                 var sourceClientCertificates = new List<X509Certificate>();
+
+                if configuration.internalcert {
+                    string certName = configuration.InternalCertName;
+                    "chocolatey".Log().Debug("Calling Internal Cert Function".format_with(source));
+                    var user_local_cert = GetFromCertStore(certName);
+                    "chocolatey".Log().Debug("The cert is " + user_local_cert.to_string() + " here".format_with(source));
+                    sourceClientCertificates.Add(user_local_cert);
+                }
+
                 if (!string.IsNullOrWhiteSpace(configuration.SourceCommand.Certificate))
                 {
                     "chocolatey".Log().Debug("Using passed in certificate for source {0}".FormatWith(source));
