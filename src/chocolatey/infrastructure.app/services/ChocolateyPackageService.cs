@@ -652,7 +652,7 @@ package '{0}' - stopping further execution".FormatWith(packageResult.Name));
             // most times folks won't want to skip automation scripts on upgrade
             //if (config.SkipPackageInstallProvider) arguments.Append(" --skip-automation-scripts");
             //if (config.UpgradeCommand.FailOnUnfound) arguments.Append(" --fail-on-unfound");
-
+            if (!string.IsNullOrWhiteSpace(config.SourceCommand.Username)) arguments.Append(" --internalcert=\"'{0}'\"".FormatWith(config.internalcert));
             if (!string.IsNullOrWhiteSpace(config.SourceCommand.Username)) arguments.Append(" --user=\"'{0}'\"".FormatWith(config.SourceCommand.Username));
             if (!string.IsNullOrWhiteSpace(config.SourceCommand.Password)) arguments.Append(" --password=\"'{0}'\"".FormatWith(config.SourceCommand.Password));
             if (!string.IsNullOrWhiteSpace(config.SourceCommand.Certificate)) arguments.Append(" --cert=\"'{0}'\"".FormatWith(config.SourceCommand.Certificate));
@@ -1656,7 +1656,7 @@ ATTENTION: You must take manual action to remove {1} from
 
             if (rollback)
             {
-             var destination = _fileSystem.CombinePaths(ApplicationParameters.PackagesLocation, packageResult.Identity.Id);
+                var destination = _fileSystem.CombinePaths(ApplicationParameters.PackagesLocation, packageResult.Identity.Id);
                 _filesService.MovePackageUsingBackupStrategy(rollbackDirectory, destination, restoreSource: false);
             }
 
