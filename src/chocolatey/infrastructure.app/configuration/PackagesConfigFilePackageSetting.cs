@@ -69,12 +69,6 @@ namespace chocolatey.infrastructure.app.configuration
         [XmlAttribute(AttributeName = "prerelease")]
         public bool Prerelease { get; set; }
 
-        [XmlAttribute(AttributeName = "internalcert")]
-        public string InternalCert { get; set; }
-
-        [XmlAttribute(AttributeName = "usercert")]
-        public bool UserCert { get; set; }
-
         [XmlAttribute(AttributeName = "overrideArguments")]
         public bool OverrideArguments { get; set; }
 
@@ -95,6 +89,9 @@ namespace chocolatey.infrastructure.app.configuration
 
         [XmlAttribute(AttributeName = "password")]
         public string Password { get; set; }
+
+        [XmlAttribute(AttributeName = "internalcert")]
+        public string InternalCert { get; set; }
 
         [XmlAttribute(AttributeName = "cert")]
         public string Cert { get; set; }

@@ -61,7 +61,7 @@ namespace chocolatey.infrastructure.app.commands
                 .Add(
                     "ic=|internalcert=",
                     "Internal Cert - Uses the cert in the local machine store(personal)",
-                    option => configuration.InternalCert = option.UnquoteSafe())
+                    option => configuration.SourceCommand.InternalCert = option.UnquoteSafe())
                 .Add("cert=",
                      "Client certificate - PFX pathname for an x509 authenticated feeds. Defaults to empty.",
                      option => configuration.SourceCommand.Certificate = option.UnquoteSafe())
@@ -80,7 +80,7 @@ namespace chocolatey.infrastructure.app.commands
                     })
                 ;
             // After parsing all options, check for conflicting options
-            if (!string.IsNullOrEmpty(configuration.InternalCert) &&
+            if (!string.IsNullOrEmpty(configuration.SourceCommand.InternalCert) &&
                 (!string.IsNullOrEmpty(configuration.SourceCommand.Certificate) ||
                  !string.IsNullOrEmpty(configuration.SourceCommand.CertificatePassword)))
             {
@@ -88,7 +88,7 @@ namespace chocolatey.infrastructure.app.commands
             }
 
             if (!string.IsNullOrEmpty(configuration.SourceCommand.Certificate) &&
-                !string.IsNullOrEmpty(configuration.InternalCert))
+                !string.IsNullOrEmpty(configuration.SourceCommand.InternalCert))
             {
                 throw new InvalidOperationException("You cannot specify 'cert' or 'certpassword' along with 'internalcert'.");
             }
