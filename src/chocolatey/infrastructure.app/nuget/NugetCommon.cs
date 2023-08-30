@@ -149,8 +149,8 @@ namespace chocolatey.infrastructure.app.nuget
                 var bypassProxy = false;
                 var sourceClientCertificates = new List<X509Certificate>();
 
-                if configuration.internalcert {
-                    string certName = configuration.InternalCertName;
+                if (configuration.InternalCert != null) {
+                    string certName = configuration.InternalCert;
                     "chocolatey".Log().Debug("Calling Internal Cert Function".format_with(source));
                     var user_local_cert = GetFromCertStore(certName);
                     "chocolatey".Log().Debug("The cert is " + user_local_cert.to_string() + " here".format_with(source));
