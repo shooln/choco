@@ -65,10 +65,9 @@ namespace chocolatey.infrastructure.app.commands
                 .Add("p=|password=",
                      "Password - the user's password to the source. Defaults to empty.",
                      option => configuration.SourceCommand.Password = option.UnquoteSafe())
-                .Add(
-                    "ic=|internalcert=",
-                    "Internal Cert - Uses the cert in the local machine store(personal)",
-                    option => configuration.SourceCommand.InternalCert = option.UnquoteSafe())
+                .Add("ic=|internalcert=",
+                     "Internal Cert - Uses the cert in the local machine store(personal)",
+                     option => configuration.SourceCommand.InternalCert = option.UnquoteSafe())
                 .Add("cert=",
                      "Client certificate - PFX pathname for an x509 authenticated feeds. Defaults to empty.",
                      option => configuration.SourceCommand.Certificate = option.UnquoteSafe())
