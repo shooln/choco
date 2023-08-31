@@ -53,6 +53,9 @@ namespace chocolatey.infrastructure.app.configuration
         [XmlAttribute(AttributeName = "priority")]
         public int Priority { get; set; }
 
+        [XmlAttribute(AttributeName = "internalcert")]
+        public string InternalCert { get; set; }
+
         [XmlAttribute(AttributeName = "certificate")]
         public string Certificate { get; set; }
 
@@ -79,6 +82,7 @@ namespace chocolatey.infrastructure.app.configuration
                 && (Password == item.Password)
                 && (Priority == item.Priority)
                 && (Certificate == item.Certificate)
+                && (InternalCert == item.InternalCert)
                 && (CertificatePassword == item.CertificatePassword);
         }
 
@@ -96,6 +100,7 @@ namespace chocolatey.infrastructure.app.configuration
             hash.Add(Password);
             hash.Add(Priority);
             hash.Add(Certificate);
+            hash.Add(InternalCert);
             hash.Add(CertificatePassword);
 
             return hash.ToHashCode();

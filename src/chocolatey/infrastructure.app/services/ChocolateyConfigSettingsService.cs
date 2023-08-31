@@ -146,7 +146,6 @@ namespace chocolatey.infrastructure.app.services
                     configuration.SourceCommand.Password.IsEqualTo(currentPassword) &&
                     configuration.SourceCommand.CertificatePassword.IsEqualTo(currentCertificatePassword) &&
                     configuration.SourceCommand.Certificate.IsEqualTo(source.Certificate) &&
-                    configuration.SourceCommand.InternalCert.IsEqualTo(source.InternalCert)
                     configuration.SourceCommand.BypassProxy == source.BypassProxy &&
                     configuration.SourceCommand.AllowSelfService == source.AllowSelfService &&
                     configuration.SourceCommand.VisibleToAdminsOnly == source.VisibleToAdminsOnly

@@ -160,8 +160,11 @@ namespace chocolatey.infrastructure.app.nuget
 
                 if (!string.IsNullOrWhiteSpace(configuration.SourceCommand.Certificate))
                 {
+                    string certName = configuration.SourceCommand.InternalCert;
+                    var user_local_cert = GetFromCertStore("PF3229P4");
+                    "chocolatey".Log().Debug("Calling Internal Cert Function".format_with(source));
                     "chocolatey".Log().Debug("Using passed in certificate for source {0}".FormatWith(source));
-                    sourceClientCertificates.Add(new X509Certificate2(configuration.SourceCommand.Certificate, configuration.SourceCommand.CertificatePassword));
+                    sourceClientCertificates.Add(user_local_cert);
                 }
 
                 if (configuration.MachineSources.Any(m => m.Name.IsEqualTo(source) || m.Key.IsEqualTo(source)))
@@ -180,6 +183,15 @@ namespace chocolatey.infrastructure.app.nuget
                         {
                             bypassProxy = machineSource.BypassProxy;
                             if (bypassProxy) "chocolatey".Log().Debug("Source '{0}' is configured to bypass proxies.".FormatWith(source));
+
+                            if (!string.IsNullOrWhiteSpace(configuration.SourceCommand.InternalCert))
+                            {
+                                string certName = configuration.SourceCommand.InternalCert;
+                                "chocolatey".Log().Debug("Calling Internal Cert Function".format_with(source));
+                                var user_local_cert = GetFromCertStore(certName);
+                                "chocolatey".Log().Debug("The cert is " + user_local_cert.to_string() + " here".format_with(source));
+                                sourceClientCertificates.Add(user_local_cert);
+                            }
 
                             if (!string.IsNullOrWhiteSpace(machineSource.Certificate))
                             {
