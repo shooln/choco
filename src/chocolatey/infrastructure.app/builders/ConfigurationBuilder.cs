@@ -206,6 +206,7 @@ namespace chocolatey.infrastructure.app.builders
                     Username = source.UserName,
                     EncryptedPassword = source.Password,
                     Certificate = source.Certificate,
+                    InternalCertificate = source.InternalCertificate
                     EncryptedCertificatePassword = source.CertificatePassword,
                     Priority = source.Priority,
                     BypassProxy = source.BypassProxy,
@@ -461,7 +462,7 @@ namespace chocolatey.infrastructure.app.builders
                                     config.CacheExpirationInMinutes = -1;
                                 }
                             });
-                        ;
+                    ;
                 },
                 (unparsedArgs) =>
                 {

@@ -79,6 +79,19 @@ namespace chocolatey.infrastructure.app.commands
                      "Visible to Administrators Only - Should this source be visible to non-administrators? Requires business edition (v1.12.2+). Defaults to false.",
                      option => configuration.SourceCommand.VisibleToAdminsOnly = option != null)
                 ;
+            // After parsing all options, check for conflicting options
+            if (!string.IsNullOrEmpty(configuration.SourceCommand.InternalCert) &&
+                (!string.IsNullOrEmpty(configuration.SourceCommand.Certificate) ||
+                 !string.IsNullOrEmpty(configuration.SourceCommand.CertificatePassword)))
+            {
+                throw new InvalidOperationException("You cannot specify 'internalcert' along with 'cert' or 'certpassword'.");
+            }
+
+            if (!string.IsNullOrEmpty(configuration.SourceCommand.Certificate) &&
+                !string.IsNullOrEmpty(configuration.SourceCommand.InternalCert))
+            {
+                throw new InvalidOperationException("You cannot specify 'cert' or 'certpassword' along with 'internalcert'.");
+            }
         }
 
         public virtual void ParseAdditionalArguments(IList<string> unparsedArguments, ChocolateyConfiguration configuration)
