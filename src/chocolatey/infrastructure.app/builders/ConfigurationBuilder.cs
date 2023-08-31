@@ -206,7 +206,7 @@ namespace chocolatey.infrastructure.app.builders
                     Username = source.UserName,
                     EncryptedPassword = source.Password,
                     Certificate = source.Certificate,
-                    InternalCertificate = source.InternalCertificate,
+                    InternalCert = source.InternalCert,
                     EncryptedCertificatePassword = source.CertificatePassword,
                     Priority = source.Priority,
                     BypassProxy = source.BypassProxy,

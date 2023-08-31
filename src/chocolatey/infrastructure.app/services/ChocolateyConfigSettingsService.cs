@@ -76,6 +76,7 @@ namespace chocolatey.infrastructure.app.services
                         source.Disabled ? " [Disabled]" : string.Empty,
                         source.Value,
                         (string.IsNullOrWhiteSpace(source.UserName) && string.IsNullOrWhiteSpace(source.Certificate)) ? string.Empty : "(Authenticated)",
+                        source.InternalCert,
                         source.Priority,
                         source.BypassProxy.ToStringSafe(),
                         source.AllowSelfService.ToStringSafe(),
@@ -145,6 +146,7 @@ namespace chocolatey.infrastructure.app.services
                     configuration.SourceCommand.Password.IsEqualTo(currentPassword) &&
                     configuration.SourceCommand.CertificatePassword.IsEqualTo(currentCertificatePassword) &&
                     configuration.SourceCommand.Certificate.IsEqualTo(source.Certificate) &&
+                    configuration.SourceCommand.InternalCert.IsEqualTo(source.InternalCert)
                     configuration.SourceCommand.BypassProxy == source.BypassProxy &&
                     configuration.SourceCommand.AllowSelfService == source.AllowSelfService &&
                     configuration.SourceCommand.VisibleToAdminsOnly == source.VisibleToAdminsOnly
@@ -160,6 +162,7 @@ namespace chocolatey.infrastructure.app.services
                     source.Password = NugetEncryptionUtility.EncryptString(configuration.SourceCommand.Password);
                     source.CertificatePassword = NugetEncryptionUtility.EncryptString(configuration.SourceCommand.CertificatePassword);
                     source.Certificate = configuration.SourceCommand.Certificate;
+                    source.InternalCert = configuration.SourceCommand.InternalCert;
                     source.BypassProxy = configuration.SourceCommand.BypassProxy;
                     source.AllowSelfService = configuration.SourceCommand.AllowSelfService;
                     source.VisibleToAdminsOnly = configuration.SourceCommand.VisibleToAdminsOnly;
