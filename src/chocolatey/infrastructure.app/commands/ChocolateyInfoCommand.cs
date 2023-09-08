@@ -59,7 +59,7 @@ namespace chocolatey.infrastructure.app.commands
                     "Password - the user's password to the source. Defaults to empty.",
                     option => configuration.SourceCommand.Password = option.UnquoteSafe())
                 .Add(
-                    "internalcert=",
+                    "ic=|internalcert=",
                     "Internal Cert - Uses the cert in the local machine store(personal)",
                     option => configuration.SourceCommand.InternalCert = option.UnquoteSafe())
                 .Add("cert=",

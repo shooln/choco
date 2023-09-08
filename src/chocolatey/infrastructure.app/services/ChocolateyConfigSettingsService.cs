@@ -76,7 +76,6 @@ namespace chocolatey.infrastructure.app.services
                         source.Disabled ? " [Disabled]" : string.Empty,
                         source.Value,
                         (string.IsNullOrWhiteSpace(source.UserName) && string.IsNullOrWhiteSpace(source.Certificate)) ? string.Empty : "(Authenticated)",
-                        source.InternalCert,
                         source.Priority,
                         source.BypassProxy.ToStringSafe(),
                         source.AllowSelfService.ToStringSafe(),
@@ -92,6 +91,7 @@ namespace chocolatey.infrastructure.app.services
                         source.UserName.QuoteIfContainsPipe(),
                         source.Certificate,
                         source.Priority,
+                        source.InternalCert,
                         source.BypassProxy.ToStringSafe(),
                         source.AllowSelfService.ToStringSafe(),
                         source.VisibleToAdminsOnly.ToStringSafe()
