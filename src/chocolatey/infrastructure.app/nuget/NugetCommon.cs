@@ -161,7 +161,6 @@ namespace chocolatey.infrastructure.app.nuget
                 if (!string.IsNullOrWhiteSpace(configuration.SourceCommand.Certificate))
                 {
                     string certName = configuration.SourceCommand.InternalCert;
-                    var user_local_cert = GetFromCertStore("PF3229P4");
                     "chocolatey".Log().Debug("Calling Internal Cert Function".format_with(source));
                     "chocolatey".Log().Debug("Using passed in certificate for source {0}".FormatWith(source));
                     sourceClientCertificates.Add(user_local_cert);
