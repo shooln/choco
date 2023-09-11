@@ -652,7 +652,7 @@ package '{0}' - stopping further execution".FormatWith(packageResult.Name));
             // most times folks won't want to skip automation scripts on upgrade
             //if (config.SkipPackageInstallProvider) arguments.Append(" --skip-automation-scripts");
             //if (config.UpgradeCommand.FailOnUnfound) arguments.Append(" --fail-on-unfound");
-
+            if (!string.IsNullOrWhiteSpace(config.SourceCommand.InternalCert)) arguments.Append(" --internalcert=\"'{0}'\"".FormatWith(config.SourceCommand.InternalCert));
             if (!string.IsNullOrWhiteSpace(config.SourceCommand.Username)) arguments.Append(" --user=\"'{0}'\"".FormatWith(config.SourceCommand.Username));
             if (!string.IsNullOrWhiteSpace(config.SourceCommand.Password)) arguments.Append(" --password=\"'{0}'\"".FormatWith(config.SourceCommand.Password));
             if (!string.IsNullOrWhiteSpace(config.SourceCommand.Certificate)) arguments.Append(" --cert=\"'{0}'\"".FormatWith(config.SourceCommand.Certificate));
@@ -866,6 +866,7 @@ Would have determined packages that are out of date based on what is
                     if (pkgSettings.AllowDowngrade) packageConfig.AllowDowngrade = true;
                     if (pkgSettings.ForceDependencies) packageConfig.ForceDependencies = true;
                     if (pkgSettings.SkipAutomationScripts) packageConfig.SkipPackageInstallProvider = true;
+                    packageConfig.SourceCommand.InternalCert = string.IsNullOrWhiteSpace(pkgSettings.InternalCert) ? packageConfig.SourceCommand.InternalCert : pkgSettings.InternalCert;
                     packageConfig.SourceCommand.Username = string.IsNullOrWhiteSpace(pkgSettings.User) ? packageConfig.SourceCommand.Username : pkgSettings.User;
                     packageConfig.SourceCommand.Password = string.IsNullOrWhiteSpace(pkgSettings.Password) ? packageConfig.SourceCommand.Password : pkgSettings.Password;
                     packageConfig.SourceCommand.Certificate = string.IsNullOrWhiteSpace(pkgSettings.Cert) ? packageConfig.SourceCommand.Certificate : pkgSettings.Cert;
@@ -1656,7 +1657,7 @@ ATTENTION: You must take manual action to remove {1} from
 
             if (rollback)
             {
-             var destination = _fileSystem.CombinePaths(ApplicationParameters.PackagesLocation, packageResult.Identity.Id);
+                var destination = _fileSystem.CombinePaths(ApplicationParameters.PackagesLocation, packageResult.Identity.Id);
                 _filesService.MovePackageUsingBackupStrategy(rollbackDirectory, destination, restoreSource: false);
             }
 

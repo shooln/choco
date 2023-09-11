@@ -75,9 +75,10 @@ namespace chocolatey.infrastructure.app.services
                         source.Id,
                         source.Disabled ? " [Disabled]" : string.Empty,
                         source.Value,
-                        (string.IsNullOrWhiteSpace(source.UserName) && string.IsNullOrWhiteSpace(source.Certificate)) ? string.Empty : "(Authenticated)",
+                        (string.IsNullOrWhiteSpace(source.UserName) && (string.IsNullOrWhiteSpace(source.Certificate) || (string.IsNullOrWhiteSpace(source.InternalCert)) ? string.Empty : "(Authenticated)",
                         source.Priority,
                         source.BypassProxy.ToStringSafe(),
+                        source.InternalCert,
                         source.AllowSelfService.ToStringSafe(),
                         source.VisibleToAdminsOnly.ToStringSafe()
                         ));
@@ -102,7 +103,7 @@ namespace chocolatey.infrastructure.app.services
                     Id = source.Id,
                     Value = source.Value,
                     Disabled = source.Disabled,
-                    Authenticated = !(string.IsNullOrWhiteSpace(source.UserName) && string.IsNullOrWhiteSpace(source.Certificate)),
+                    Authenticated = !(string.IsNullOrWhiteSpace(source.UserName) && (string.IsNullOrWhiteSpace(source.Certificate) || string.IsNullOrWhiteSpace(source.InternalCert))),
                     Priority = source.Priority,
                     BypassProxy = source.BypassProxy,
                     AllowSelfService = source.AllowSelfService,
@@ -125,6 +126,7 @@ namespace chocolatey.infrastructure.app.services
                     Password = NugetEncryptionUtility.EncryptString(configuration.SourceCommand.Password),
                     Certificate = configuration.SourceCommand.Certificate,
                     CertificatePassword = NugetEncryptionUtility.EncryptString(configuration.SourceCommand.CertificatePassword),
+                    InternalCert = configuration.SourceCommand.InternalCert,
                     Priority = configuration.SourceCommand.Priority,
                     BypassProxy = configuration.SourceCommand.BypassProxy,
                     AllowSelfService = configuration.SourceCommand.AllowSelfService,
@@ -145,6 +147,7 @@ namespace chocolatey.infrastructure.app.services
                     configuration.SourceCommand.Password.IsEqualTo(currentPassword) &&
                     configuration.SourceCommand.CertificatePassword.IsEqualTo(currentCertificatePassword) &&
                     configuration.SourceCommand.Certificate.IsEqualTo(source.Certificate) &&
+                    configuration.SourceCommand.InternalCert.IsEqualTo(source.InternalCert) &&
                     configuration.SourceCommand.BypassProxy == source.BypassProxy &&
                     configuration.SourceCommand.AllowSelfService == source.AllowSelfService &&
                     configuration.SourceCommand.VisibleToAdminsOnly == source.VisibleToAdminsOnly
@@ -160,6 +163,7 @@ namespace chocolatey.infrastructure.app.services
                     source.Password = NugetEncryptionUtility.EncryptString(configuration.SourceCommand.Password);
                     source.CertificatePassword = NugetEncryptionUtility.EncryptString(configuration.SourceCommand.CertificatePassword);
                     source.Certificate = configuration.SourceCommand.Certificate;
+                    source.InternalCert = configuration.SourceCommand.InternalCert;
                     source.BypassProxy = configuration.SourceCommand.BypassProxy;
                     source.AllowSelfService = configuration.SourceCommand.AllowSelfService;
                     source.VisibleToAdminsOnly = configuration.SourceCommand.VisibleToAdminsOnly;

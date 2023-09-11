@@ -105,6 +105,9 @@ namespace chocolatey.infrastructure.app.commands
                 .Add("cp=|certpassword=",
                      "Certificate Password - the client certificate's password to the source. Defaults to empty.",
                      option => configuration.SourceCommand.CertificatePassword = option.UnquoteSafe())
+                .Add("ic=|internalcert=",
+                     "Internal Cert - Uses the cert in the local machine store(personal)",
+                     option => configuration.SourceCommand.InternalCert = option.UnquoteSafe())
                 .Add("ignorechecksum|ignore-checksum|ignorechecksums|ignore-checksums",
                       "IgnoreChecksums - Ignore checksums provided by the package. Overrides the default feature '{0}' set to '{1}'.".FormatWith(ApplicationParameters.Features.ChecksumFiles, configuration.Features.ChecksumFiles.ToStringSafe()),
                       option =>
